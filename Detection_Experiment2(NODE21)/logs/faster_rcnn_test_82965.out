@@ -1,0 +1,393 @@
+======================================
+Starting Faster R-CNN Testing
+======================================
+Date: Sat Nov  7 07:59:11 PM UTC 2026
+Job ID: 82965
+Compute Node: mscluster48
+Working Directory: /home-mscluster/mmabeloane/Pulmonary Nodule Detection
+Loading Anaconda...
+Anaconda Loaded
+Starting testing...
+============================================================
+NODE21 FASTER R-CNN TESTING
+============================================================
+Device : cuda
+============================================================
+
+1. Creating test dataset...
+============================================================
+============================================================
+NODE21 DATASET LOADED
+============================================================
+CSV File : data/test.csv
+Images   : 733
+Rows     : 798
+============================================================
+Test images : 733
+
+2. Creating test DataLoader...
+============================================================
+Batch size  : 4
+Workers     : 4
+
+3. Creating RetinaNet...
+============================================================
+============================================================
+Loading Medical Pretrained ResNet50
+============================================================
+✓ Medical weights loaded
+✓ Keeping standard MaxPool2d
+✓ No LIP in residual layers
+✓ Feature Pyramid Network attached
+✓ Backbone ready for detection
+============================================================
+============================================================
+Loading Medical Pretrained ResNet50
+============================================================
+✓ Medical weights loaded
+✓ Stem MaxPool replaced with LIPModule (64 channels)
+✓ LIP downsampling in: layer2 (post_k=1)
+✓ Feature Pyramid Network attached
+✓ Backbone ready for detection
+============================================================
+
+4. Loading trained weights...
+============================================================
+✓ Best Baseline RetinaNet weights loaded
+✓ Weights: weights/fasterrcnn_baseline_best.pth
+
+======================================================================
+CREATING PROPOSED LIP RETINANET
+======================================================================
+✓ Proposed LIP loaded: weights/fasterrcnn_LIP2_best.pth
+✓ Model moved to cuda
+
+5. Evaluating Baseline model...
+============================================================
+
+============================================================
+NODE21 NODULE SIZE DISTRIBUTION
+============================================================
+Positive annotations : 1034
+Minimum area         : 26.00 px²
+10th percentile      : 1120.00 px²
+25th percentile      : 1778.50 px²
+Median               : 2871.00 px²
+75th percentile      : 4950.00 px²
+90th percentile      : 8305.50 px²
+Maximum area         : 27863.00 px²
+
+SMALL NODULE DEFINITION
+------------------------------------------------------------
+Small nodule area < 1778.50 px²
+Threshold source: 25th percentile of TRAINING nodules
+============================================================
+
+============================================================
+RUNNING TEST INFERENCE
+============================================================
+Images evaluated : 733
+============================================================
+
+Saving 20 sample visualizations (only_positive=True) to testing/visualizations/Fbaseline...
+✓ Visualizations saved successfully to testing/visualizations/Fbaseline
+✓ FROC curve points saved to testing/fasterrcnn_baseline_valid_froc_curve.csv
+
+============================================================
+NODE21 RETINANET EVALUATION
+============================================================
+
+FROC / CPM (primary metric)
+------------------------------------------------------------
+Sensitivity @ 0.125 FP/image : 0.5872
+Sensitivity @ 0.25 FP/image : 0.7106
+Sensitivity @ 0.5 FP/image : 0.7872
+CPM                        : 0.6950
+
+Small-nodule FROC / CPM
+------------------------------------------------------------
+Sensitivity @ 0.125 FP/image : 0.5577
+Sensitivity @ 0.25 FP/image : 0.7500
+Sensitivity @ 0.5 FP/image : 0.8269
+Small CPM                  : 0.7115
+
+IMAGE-LEVEL AUC / AP
+------------------------------------------------------------
+Image-level AUC            : 0.9497
+AP (IoU 0.2/0.16)        : 0.6368
+Small AP                   : 0.3673
+AP@0.5                     : 0.5613
+Small AP@0.5               : 0.2451
+
+OVERALL DETECTION (fixed threshold, secondary)
+------------------------------------------------------------
+Precision    : 0.4704
+Sensitivity  : 0.7106
+Specificity  : 0.8917
+TN           : 502
+F1           : 0.5661
+FNR          : 0.2894
+FP / image   : 0.2565
+
+SMALL NODULE DETECTION (fixed threshold, secondary)
+------------------------------------------------------------
+Area threshold : 1778.50 px²
+Small nodules  : 52
+Small TP       : 39
+Small FN       : 13
+Small Sens.    : 0.7500
+Small Specificity : 0.7654
+Small TN          : 522
+Small FNR         : 0.2500
+
+============================================================
+OVERALL DETECTION AT DIFFERENT SCORE THRESHOLDS
+============================================================
+  Thr   TP    FP   FN    Prec    Sens      F1     FNR    Spec  FP/img
+ 0.05  214  2246   21  0.0870  0.9106  0.1588  0.0894  0.2451   3.064
+ 0.10  204  1306   31  0.1351  0.8681  0.2338  0.1319  0.4298   1.782
+ 0.20  193   709   42  0.2140  0.8213  0.3395  0.1787  0.6412   0.967
+ 0.30  186   456   49  0.2897  0.7915  0.4242  0.2085  0.7496   0.622
+ 0.40  181   316   54  0.3642  0.7702  0.4945  0.2298  0.8224   0.431
+ 0.50  174   231   61  0.4296  0.7404  0.5437  0.2596  0.8615   0.315
+ 0.55  167   188   68  0.4704  0.7106  0.5661  0.2894  0.8917   0.256
+
+============================================================
+SMALL-NODULE DETECTION AT DIFFERENT SCORE THRESHOLDS
+============================================================
+  Thr  SmallGT   TP   FN    Sens     FNR    Spec
+ 0.05       52   48    4  0.9231  0.0769  0.2038
+ 0.10       52   46    6  0.8846  0.1154  0.3578
+ 0.20       52   44    8  0.8462  0.1538  0.5352
+ 0.30       52   44    8  0.8462  0.1538  0.6305
+ 0.40       52   43    9  0.8269  0.1731  0.6921
+ 0.50       52   42   10  0.8077  0.1923  0.7346
+ 0.55       52   39   13  0.7500  0.2500  0.7654
+============================================================
+✓ Threshold sweep saved to testing/threshold_sweep.csv
+============================================================
+
+6. Evaluating PROPOSED LIP model...
+============================================================
+
+============================================================
+NODE21 NODULE SIZE DISTRIBUTION
+============================================================
+Positive annotations : 1034
+Minimum area         : 26.00 px²
+10th percentile      : 1120.00 px²
+25th percentile      : 1778.50 px²
+Median               : 2871.00 px²
+75th percentile      : 4950.00 px²
+90th percentile      : 8305.50 px²
+Maximum area         : 27863.00 px²
+
+SMALL NODULE DEFINITION
+------------------------------------------------------------
+Small nodule area < 1778.50 px²
+Threshold source: 25th percentile of TRAINING nodules
+============================================================
+
+============================================================
+RUNNING TEST INFERENCE
+============================================================
+Images evaluated : 733
+============================================================
+
+Saving 20 sample visualizations (only_positive=True) to testing/visualizations/Fproposed...
+✓ Visualizations saved successfully to testing/visualizations/Fproposed
+✓ FROC curve points saved to testing/fasterrcnn_lip2_valid_froc_curve.csv
+
+============================================================
+NODE21 RETINANET EVALUATION
+============================================================
+
+FROC / CPM (primary metric)
+------------------------------------------------------------
+Sensitivity @ 0.125 FP/image : 0.6128
+Sensitivity @ 0.25 FP/image : 0.6468
+Sensitivity @ 0.5 FP/image : 0.7106
+CPM                        : 0.6567
+
+Small-nodule FROC / CPM
+------------------------------------------------------------
+Sensitivity @ 0.125 FP/image : 0.5962
+Sensitivity @ 0.25 FP/image : 0.6346
+Sensitivity @ 0.5 FP/image : 0.7115
+Small CPM                  : 0.6474
+
+IMAGE-LEVEL AUC / AP
+------------------------------------------------------------
+Image-level AUC            : 0.9264
+AP (IoU 0.2/0.16)        : 0.5827
+Small AP                   : 0.3125
+AP@0.5                     : 0.4971
+Small AP@0.5               : 0.2034
+
+OVERALL DETECTION (fixed threshold, secondary)
+------------------------------------------------------------
+Precision    : 0.5103
+Sensitivity  : 0.6340
+Specificity  : 0.8952
+TN           : 504
+F1           : 0.5655
+FNR          : 0.3660
+FP / image   : 0.1951
+
+SMALL NODULE DETECTION (fixed threshold, secondary)
+------------------------------------------------------------
+Area threshold : 1778.50 px²
+Small nodules  : 52
+Small TP       : 32
+Small FN       : 20
+Small Sens.    : 0.6154
+Small Specificity : 0.7742
+Small TN          : 528
+Small FNR         : 0.3846
+
+============================================================
+OVERALL DETECTION AT DIFFERENT SCORE THRESHOLDS
+============================================================
+  Thr   TP    FP   FN    Prec    Sens      F1     FNR    Spec  FP/img
+ 0.05  184  1377   51  0.1179  0.7830  0.2049  0.2170  0.3854   1.879
+ 0.10  178   761   57  0.1896  0.7574  0.3032  0.2426  0.5826   1.038
+ 0.20  170   419   65  0.2886  0.7234  0.4126  0.2766  0.7300   0.572
+ 0.30  158   289   77  0.3535  0.6723  0.4633  0.3277  0.8099   0.394
+ 0.40  155   215   80  0.4189  0.6596  0.5124  0.3404  0.8526   0.293
+ 0.50  152   162   83  0.4841  0.6468  0.5537  0.3532  0.8792   0.221
+ 0.55  149   143   86  0.5103  0.6340  0.5655  0.3660  0.8952   0.195
+
+============================================================
+SMALL-NODULE DETECTION AT DIFFERENT SCORE THRESHOLDS
+============================================================
+  Thr  SmallGT   TP   FN    Sens     FNR    Spec
+ 0.05       52   42   10  0.8077  0.1923  0.3226
+ 0.10       52   41   11  0.7885  0.2115  0.4912
+ 0.20       52   39   13  0.7500  0.2500  0.6202
+ 0.30       52   34   18  0.6538  0.3462  0.6921
+ 0.40       52   33   19  0.6346  0.3654  0.7317
+ 0.50       52   33   19  0.6346  0.3654  0.7595
+ 0.55       52   32   20  0.6154  0.3846  0.7742
+============================================================
+✓ Threshold sweep saved to testing/threshold_sweep.csv
+============================================================
+
+6. Saving evaluation results...
+============================================================
+✓ Evaluation results saved to testing/fasterrcnn_baseline_valid_evaluation_results.csv
+✓ Evaluation results saved to testing/fasterrcnn_lip2_valid_evaluation_results.csv
+
+======================================================================
+RUNNING PAIRED BOOTSTRAP
+======================================================================
+
+============================================================
+MODEL COMPARISON + PAIRED BOOTSTRAP
+============================================================
+Baseline model  : supplied trained model
+Proposed model  : supplied trained model
+Training        : NOT performed
+Evaluation      : same test set
+============================================================
+
+============================================================
+NODE21 NODULE SIZE DISTRIBUTION
+============================================================
+Positive annotations : 1034
+Minimum area         : 26.00 px²
+10th percentile      : 1120.00 px²
+25th percentile      : 1778.50 px²
+Median               : 2871.00 px²
+75th percentile      : 4950.00 px²
+90th percentile      : 8305.50 px²
+Maximum area         : 27863.00 px²
+
+SMALL NODULE DEFINITION
+------------------------------------------------------------
+Small nodule area < 1778.50 px²
+Threshold source: 25th percentile of TRAINING nodules
+============================================================
+
+============================================================
+BASELINE MODEL INFERENCE
+============================================================
+
+============================================================
+RUNNING TEST INFERENCE
+============================================================
+Images evaluated : 733
+============================================================
+
+============================================================
+PROPOSED MODEL INFERENCE
+============================================================
+
+============================================================
+RUNNING TEST INFERENCE
+============================================================
+Images evaluated : 733
+============================================================
+
+============================================================
+OBSERVED MODEL COMPARISON
+============================================================
+Baseline CPM       : 0.6950
+Proposed CPM       : 0.6567
+CPM difference     : -0.0383
+
+Baseline small CPM : 0.7115
+Proposed small CPM : 0.6474
+Small CPM difference: -0.0641
+
+============================================================
+PAIRED BOOTSTRAP FROC / CPM
+============================================================
+Test images        : 733
+Bootstrap samples  : 2000
+Random seed        : 42
+Resampling unit    : image
+Confidence level   : 95%
+============================================================
+Bootstrap progress: 200/2000
+Bootstrap progress: 400/2000
+Bootstrap progress: 600/2000
+Bootstrap progress: 800/2000
+Bootstrap progress: 1000/2000
+Bootstrap progress: 1200/2000
+Bootstrap progress: 1400/2000
+Bootstrap progress: 1600/2000
+Bootstrap progress: 1800/2000
+Bootstrap progress: 2000/2000
+
+BOOTSTRAP RESULTS
+------------------------------------------------------------
+Overall CPM difference       : -0.0383
+95% CI                       : [-0.0884, 0.0116]
+Small-nodule CPM difference  : -0.0641
+95% CI                       : [-0.1497, 0.0288]
+
+Small-nodule sensitivity differences
+------------------------------------------------------------
+@ 0.125 FP/image : +0.0385 [95% CI: -0.0741, +0.1636]
+@ 0.25 FP/image : -0.1154 [95% CI: -0.2381, +0.0182]
+@ 0.5 FP/image : -0.1154 [95% CI: -0.2222, -0.0179]
+
+✓ Bootstrap distribution saved to testing/bootstrap_results.csv
+✓ Bootstrap summary saved to testing/bootstrap_results_summary.csv
+============================================================
+
+============================================================
+TESTING COMPLETE
+============================================================
+Baseline results saved to : testing/fasterrcnn_baseline_valid_evaluation_results.csv
+Proposed results saved to : testing/fasterrcnn_lip2_valid_evaluation_results.csv
+Baseline FROC saved to    : testing/fasterrcnn_baseline_valid_froc_curve.csv
+Proposed FROC saved to    : testing/fasterrcnn_lip2_valid_froc_curve.csv
+Bootstrap results saved to:
+testing/fasterrcnn_bootstrap_results.csv
+testing/fasterrcnn_bootstrap_results_summary.csv
+============================================================
+======================================
+Testing Finished
+Date: Sat Nov  7 08:10:20 PM UTC 2026
+======================================
